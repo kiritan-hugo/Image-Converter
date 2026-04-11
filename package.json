@@ -12,6 +12,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^6.1.5"
+    "astro": "^6.1.5",
+    "jszip": "^3.10.1",
+    "libheif-js": "^1.19.8"
   }
 }

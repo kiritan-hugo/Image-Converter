@@ -1,0 +1,66 @@
+---
+// src/components/Header.astro
+---
+
+<header class="site-header">
+    <div class="header-container">
+        <a href="/" class="header-logo-group">
+            <img src="/favicon.svg" alt="logo" class="header-icon" />
+            <span class="site-title">画像変換くんPRO</span>
+        </a>
+        <nav>
+            <a href="/how-to-use" class="nav-link">利用方法</a>
+        </nav>
+    </div>
+</header>
+
+<style>
+    .site-header {
+        background: #fff;
+        border-bottom: 1px solid #eaeaea;
+        padding: 0 40px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+    .header-container {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    /* ロゴとタイトルを横並びにするためのグループ */
+    .header-logo-group {
+        display: flex;
+        align-items: center;
+        gap: 12px; /* アイコンと文字の間隔 */
+        text-decoration: none;
+    }
+    .header-icon {
+        width: 32px; /* ヘッダーに合わせた適切なサイズ */
+        height: 32px;
+        border-radius: 6px; /* 少し角を丸くすると馴染みます */
+        object-fit: cover;
+    }
+    .site-title {
+        font-weight: bold;
+        font-size: 1.1rem; /* アイコンがある分、少しだけ調整 */
+        color: #1a73e8;
+        letter-spacing: -0.02em;
+    }
+    .nav-link {
+        font-size: 0.9rem;
+        color: #666;
+        text-decoration: none;
+        padding: 8px 16px;
+        border-radius: 8px;
+        transition: all 0.2s;
+    }
+    .nav-link:hover {
+        background: #f0f2f5;
+        color: #1a73e8;
+    }
+</style>

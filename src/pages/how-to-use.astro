@@ -1,0 +1,200 @@
+---
+import Header from "../components/Header.astro";
+---
+
+<!doctype html>
+<html lang="ja">
+    <head>
+        <link
+            rel="icon"
+            type="image/png"
+            href="/favicon-96x96.png"
+            sizes="96x96"
+        />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>利用方法 - andeslife image toolkit</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                line-height: 1.8;
+                color: #333;
+                background: #f0f2f5;
+                margin: 0;
+            }
+            .content {
+                max-width: 800px;
+                margin: 40px auto;
+                background: #fff;
+                padding: 40px;
+                border-radius: 16px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            }
+            h2 {
+                color: #1a73e8;
+                border-bottom: 2px solid #f0f2f5;
+                padding-bottom: 10px;
+                margin-top: 40px;
+            }
+            section {
+                margin-bottom: 30px;
+            }
+            .safety-badge {
+                background: #e6f4ea;
+                color: #137333;
+                padding: 12px;
+                border-radius: 8px;
+                font-weight: bold;
+                margin-bottom: 15px;
+                display: inline-block;
+            }
+
+            /* ブログ紹介セクション用のスタイル */
+            .about-section {
+                background: #f8f9fa;
+                padding: 25px;
+                border-radius: 12px;
+                border: 1px solid #eef0f2;
+                margin-top: 50px;
+            }
+            .about-section h3 {
+                margin-top: 0;
+                color: #333;
+            }
+            .blog-btn {
+                display: inline-block;
+                background: #1a73e8;
+                color: white;
+                padding: 12px 24px;
+                border-radius: 8px;
+                text-decoration: none;
+                font-weight: bold;
+                margin-top: 15px;
+                transition: background 0.2s;
+            }
+            .blog-btn:hover {
+                background: #1557b0;
+            }
+
+            .format-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0;
+                font-size: 0.9rem;
+            }
+            .format-table th,
+            .format-table td {
+                border: 1px solid #eee;
+                padding: 12px;
+                text-align: left;
+            }
+            .format-table th {
+                background: #f8f9fa;
+                color: #1a73e8;
+            }
+            .note {
+                font-size: 0.85rem;
+                color: #666;
+                background: #fff9db;
+                padding: 10px;
+                border-radius: 6px;
+            }
+        </style>
+    </head>
+    <body>
+        <Header />
+        <main class="content">
+            <h1>利用方法と注意事項</h1>
+
+            <section>
+                <h2>ツールの仕組み</h2>
+                <p>
+                    本ツールは、ブラウザ上で動作する画像変換ツールです。WebAssembly技術（libheif）を使用することで、ブラウザが本来苦手とするHEIC形式のデコードを可能にしています。
+                </p>
+            </section>
+
+            <section>
+                <h2>安全性について</h2>
+                <div class="safety-badge">
+                    🔒 画像データはサーバーへ送信されません
+                </div>
+                <p>
+                    すべての画像処理（デコード、リサイズ、変換）は、あなたのデバイス（ブラウザ）内で行われます。
+                    画像データが外部サーバーにアップロードされることは一切ないため、プライベートな写真でも安心してご利用いただけます。
+                </p>
+            </section>
+
+            <section>
+                <h2>対応している画像形式</h2>
+                <p>以下の主要な画像形式の読み込みに対応しています。</p>
+
+                <table class="format-table">
+                    <thead>
+                        <tr>
+                            <th>形式</th>
+                            <th>拡張子</th>
+                            <th>説明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>HEIC</strong></td>
+                            <td>.heic / .HEIC</td>
+                            <td
+                                >iPhone等の標準形式。本ツールでWebP等に変換可能です。</td
+                            >
+                        </tr>
+                        <tr>
+                            <td><strong>JPEG</strong></td>
+                            <td>.jpg / .jpeg</td>
+                            <td
+                                >一般的な写真形式。リサイズや軽量化が可能です。</td
+                            >
+                        </tr>
+                        <tr>
+                            <td><strong>PNG</strong></td>
+                            <td>.png</td>
+                            <td>図解やスクリーンショットに多い形式です。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>WebP</strong></td>
+                            <td>.webp</td>
+                            <td>Googleが推奨する次世代画像形式です。</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="note">
+                    ※出力（書き出し）は WebP / JPEG / PNG から選択できます。
+                </p>
+            </section>
+
+            <section class="about-section">
+                <h3>このツールについて</h3>
+                <p>
+                    このツールは、キャンプブログ「<strong>andeslife</strong
+                    >」の管理人が、自身のブログ運営（写真の整理やHEIC変換）を効率化するために開発しました。
+                </p>
+                <p>
+                    「シンプルで速い、そして安全」をコンセプトに、キャンプ場での電波が弱い環境や、大量の写真を一気にWebPへ変換したいシーンを想定しています。
+                </p>
+                <a href="https://andes-life.com/" class="blog-btn"
+                    >andeslife トップページへ</a
+                >
+            </section>
+
+            <div style="margin-top: 40px; text-align: center;">
+                <a href="/" style="color: #1a73e8; text-decoration: none;"
+                    >← ツールへ戻る</a
+                >
+            </div>
+        </main>
+    </body>
+</html>
