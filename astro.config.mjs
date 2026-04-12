@@ -5,6 +5,14 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 export default defineConfig({
   vite: {
     plugins: [
+      {
+        name: 'exclude-avif-mt',
+        load(id) {
+          if (id.includes('avif_enc_mt')) {
+            return 'export default {}';
+          }
+        },
+      },
       viteStaticCopy({
         targets: [
           {
@@ -18,9 +26,6 @@ export default defineConfig({
         ],
       }),
     ],
-    optimizeDeps: {
-      exclude: ['@jsquash/avif', '@jsquash/webp'],
-    },
     build: {
       target: 'esnext',
     },

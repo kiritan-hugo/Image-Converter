@@ -1,9 +1,8 @@
 // src/scripts/imageProcessor.js
 import libheif from 'libheif-js';
 import * as webpEncoder from '@jsquash/webp';
-import * as avifEncoder from '@jsquash/avif';
+import encode from '@jsquash/avif/encode';
 
-// iOS/Safari判定（モジュールスコープで一度だけ評価）
 const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 const needsWasmEncoder = isIOS || isSafari;
@@ -12,7 +11,7 @@ export async function resizeImage(file, config) {
   const { targetWidth, format, quality } = config;
   let sourceElement;
 
-  // 1. HEICデコード
+  // 1. HEICデコード処理
   if (file.type === "image/heic" || file.name.toLowerCase().endsWith(".heic")) {
     const buffer = await file.arrayBuffer();
     const decoder = new libheif.HeifDecoder();
@@ -74,7 +73,6 @@ export async function resizeImage(file, config) {
   const ctx = outCanvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, outCanvas.width, outCanvas.height);
 
-  // WebP: iOS/SafariはWasm経由、それ以外はtoBlob
   if (format === 'image/webp') {
     if (needsWasmEncoder) {
       const buf = await webpEncoder.encode(imageData, { quality: qualityInt });
@@ -83,17 +81,15 @@ export async function resizeImage(file, config) {
     return canvasToBlob(outCanvas, 'image/webp', quality);
   }
 
-  // AVIF: 全環境でWasm経由（toBlob対応ブラウザがまだ少ないため）
- if (format === 'image/avif') {
-  const buf = await avifEncoder.encode(imageData, {
-    cqLevel: avifQuantizer, // quantizerではなくcqLevelが正しいパラメーター名
-    cqAlphaLevel: -1,       // アルファチャンネルは自動
-    speed: 6,               // 0(最高圧縮・遅い) 〜 10(最低圧縮・速い) 開発時は6が現実的
-  });
-  return new Blob([buf], { type: 'image/avif' });
+  if (format === 'image/avif') {
+    const buf = await encode(imageData, {
+      cqLevel: avifQuantizer,
+      cqAlphaLevel: -1,
+      speed: 6,
+    });
+    return new Blob([buf], { type: 'image/avif' });
   }
 
-  // JPEG/PNG: 通常のtoBlob
   return canvasToBlob(outCanvas, format, quality);
 }
 

@@ -34,32 +34,6 @@ import Header from "../components/Header.astro";
         border-radius: 16px;
         box-shadow: 0 10px 25px rgba(0,0,0,0.05);
       }
-      h1 {
-        text-align: center;
-        color: #1a73e8;
-        margin-bottom: 25px;
-        font-size: 1.5rem;
-      }
-      .card-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 25px;
-      }
-      .card-header h1 { margin: 0; }
-      .settings-btn {
-        background: none;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 6px 12px;
-        cursor: pointer;
-        font-size: 0.85rem;
-        color: #555;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-      }
-      .settings-btn:hover { background: #f8f9fa; }
       .settings-group {
         background: #f8f9fa;
         padding: 20px;
@@ -324,17 +298,17 @@ import Header from "../components/Header.astro";
             </div>
           </div>
 
-          <label class="inline-option" style="margin-top: 15px;">
+          <label class="inline-option" style="margin-top:15px;">
             <input type="checkbox" id="def-keepOriginalName" />
             <span>元のファイル名を維持する（初期値）</span>
           </label>
 
-          <label class="inline-option" style="margin-top: 8px;">
+          <label class="inline-option" style="margin-top:8px;">
             <input type="checkbox" id="def-noResize" />
             <span>元のサイズを維持する（初期値）</span>
           </label>
 
-          <label class="inline-option" style="margin-top: 8px;">
+          <label class="inline-option" style="margin-top:8px;">
             <input type="checkbox" id="def-zipOption" />
             <span>複数枚をZipにまとめる（初期値）</span>
           </label>
@@ -375,7 +349,6 @@ import Header from "../components/Header.astro";
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       }
 
-      // ---- メイン画面への反映 ----
       function applyToMain(defaults) {
         document.getElementById("baseName").value = defaults.baseName;
         document.getElementById("targetWidth").value = defaults.targetWidth;
@@ -386,7 +359,6 @@ import Header from "../components/Header.astro";
         document.getElementById("noResize").checked = defaults.noResize;
         document.getElementById("zipOption").checked = defaults.zipOption;
 
-        // 連動するdisabled状態も更新
         const baseNameInput = document.getElementById("baseName");
         baseNameInput.disabled = defaults.keepOriginalName;
         baseNameInput.style.opacity = defaults.keepOriginalName ? "0.5" : "1";
@@ -396,7 +368,6 @@ import Header from "../components/Header.astro";
         targetWidthInput.style.opacity = defaults.noResize ? "0.5" : "1";
       }
 
-      // ---- モーダルへの反映 ----
       function applyToModal(defaults) {
         document.getElementById("def-baseName").value = defaults.baseName;
         document.getElementById("def-targetWidth").value = defaults.targetWidth;
@@ -413,7 +384,6 @@ import Header from "../components/Header.astro";
       applyToMain(defaults);
       document.getElementById("openSettings").style.display = "flex";
 
-      // iOS通知
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
       const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
       if (isIOS || isSafari) {
@@ -464,7 +434,6 @@ import Header from "../components/Header.astro";
         if (e.target === document.getElementById("modalOverlay")) closeModal();
       });
 
-      // モーダル内の品質スライダー連動
       document.getElementById("def-quality").addEventListener("input", (e) => {
         document.getElementById("def-qualityValue").innerText = e.target.value;
       });
@@ -483,7 +452,6 @@ import Header from "../components/Header.astro";
         saveDefaults(newDefaults);
         applyToMain(newDefaults);
 
-        // 保存メッセージを一時表示
         const msg = document.getElementById("saveMsg");
         msg.innerText = "✅ 保存しました";
         setTimeout(() => { msg.innerText = ""; }, 2000);
