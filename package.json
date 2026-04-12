@@ -12,8 +12,13 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@jsquash/avif": "^2.1.1",
+    "@jsquash/webp": "^1.5.0",
     "astro": "^6.1.5",
     "jszip": "^3.10.1",
     "libheif-js": "^1.19.8"
+  },
+  "devDependencies": {
+    "vite-plugin-static-copy": "^4.0.1"
   }
 }

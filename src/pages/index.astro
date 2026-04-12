@@ -4,336 +4,576 @@ import Header from "../components/Header.astro";
 
 <!doctype html>
 <html lang="ja">
-    <head>
-        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="shortcut icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>画像変換くんPRO</title>
-        
-        <script src="https://unpkg.com/pica/dist/pica.min.js"></script>
-        
-        <style>
-            body {
-                margin: 0;
-                padding: 0;
-                font-family: "Helvetica Neue", Arial, sans-serif;
-                line-height: 1.6;
-                background-color: #f0f2f5;
-                color: #333;
-            }
-            main {
-                padding: 40px 20px;
-            }
-            .card {
-                max-width: 500px;
-                margin: 0 auto;
-                background: white;
-                padding: 30px;
-                border-radius: 16px;
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-            }
-            h1 {
-                text-align: center;
-                color: #1a73e8;
-                margin-bottom: 25px;
-                font-size: 1.5rem;
-            }
-            .settings-group {
-                background: #f8f9fa;
-                padding: 20px;
-                border-radius: 12px;
-                margin-bottom: 20px;
-                border: 1px solid #eef0f2;
-            }
-            label {
-                display: block;
-                margin-top: 15px;
-                font-weight: bold;
-                font-size: 0.9rem;
-            }
-            input[type="text"],
-            input[type="number"],
-            select {
-                width: 100%;
-                padding: 10px;
-                margin-top: 5px;
-                border: 1px solid #ddd;
-                border-radius: 8px;
-                box-sizing: border-box;
-            }
-            .inline-option {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                margin-top: 8px;
-                font-size: 0.85rem;
-                cursor: pointer;
-            }
-            .inline-option input {
-                width: auto;
-                margin: 0;
-            }
-            
-            /* --- 品質ゲージのスタイル修正 --- */
-            .range-container {
-                display: flex;
-                flex-direction: column; /* 縦並びにして幅を100%確保 */
-                gap: 8px;
-                margin-top: 10px;
-            }
-            input[type="range"] {
-                width: 100%; /* 横幅をいっぱいに広げる */
-                margin: 0;
-                cursor: pointer;
-            }
-            .range-label-area {
-                display: flex;
-                justify-content: space-between;
-                font-size: 0.8rem;
-                color: #666;
-            }
-            #qualityValue {
-                font-weight: bold;
-                color: #1a73e8;
-            }
-            /* ---------------------------- */
+  <head>
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>画像変換くんPRO</title>
 
-            .file-section {
-                margin-top: 25px;
-                padding: 20px;
-                border: 2px dashed #cbd5e0;
-                border-radius: 12px;
-                text-align: center;
-            }
-            #processBtn {
-                width: 100%;
-                padding: 15px;
-                margin-top: 25px;
-                background-color: #1a73e8;
-                color: white;
-                border: none;
-                border-radius: 8px;
-                font-size: 1rem;
-                font-weight: bold;
-                cursor: pointer;
-            }
-            #processBtn:disabled {
-                background-color: #ccc;
-                cursor: not-allowed;
-            }
-            #status {
-                margin-top: 20px;
-                text-align: center;
-                font-size: 0.9rem;
-                color: #666;
-            }
-            .loading-dots:after {
-                content: ".";
-                animation: dots 1.5s steps(5, end) infinite;
-            }
-            @keyframes dots {
-                0%, 20% { content: "."; }
-                40% { content: ".."; }
-                60% { content: "..."; }
-                80%, 100% { content: ""; }
-            }
-            .screen-reader-only {
-                position: absolute;
-                width: 1px;
-                height: 1px;
-                padding: 0;
-                margin: -1px;
-                overflow: hidden;
-                clip: rect(0, 0, 0, 0);
-                border: 0;
-            }
-        </style>
-    </head>
-    <body>
-        <Header />
+    <script src="https://unpkg.com/pica/dist/pica.min.js"></script>
 
-        <main>
-            <div class="card">
-                <h1 class="screen-reader-only">画像変換くんPRO</h1>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        background-color: #f0f2f5;
+        color: #333;
+      }
+      main { padding: 40px 20px; }
+      .card {
+        max-width: 500px;
+        margin: 0 auto;
+        background: white;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      }
+      h1 {
+        text-align: center;
+        color: #1a73e8;
+        margin-bottom: 25px;
+        font-size: 1.5rem;
+      }
+      .card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 25px;
+      }
+      .card-header h1 { margin: 0; }
+      .settings-btn {
+        background: none;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 6px 12px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        color: #555;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .settings-btn:hover { background: #f8f9fa; }
+      .settings-group {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        border: 1px solid #eef0f2;
+      }
+      label {
+        display: block;
+        margin-top: 15px;
+        font-weight: bold;
+        font-size: 0.9rem;
+      }
+      input[type="text"],
+      input[type="number"],
+      select {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-sizing: border-box;
+        font-size: 16px;
+      }
+      .inline-option {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+        font-size: 0.85rem;
+        cursor: pointer;
+      }
+      .inline-option input { width: auto; margin: 0; }
+      .range-container {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      input[type="range"] {
+        width: 100%;
+        margin: 0;
+        cursor: pointer;
+      }
+      .range-label-area {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.8rem;
+        color: #666;
+      }
+      #qualityValue { font-weight: bold; color: #1a73e8; }
+      .file-section {
+        margin-top: 25px;
+        padding: 20px;
+        border: 2px dashed #cbd5e0;
+        border-radius: 12px;
+        text-align: center;
+      }
+      #processBtn {
+        width: 100%;
+        padding: 15px;
+        margin-top: 25px;
+        background-color: #1a73e8;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      #processBtn:disabled { background-color: #ccc; cursor: not-allowed; }
+      #status {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #666;
+      }
+      .loading-dots:after {
+        content: ".";
+        animation: dots 1.5s steps(5, end) infinite;
+      }
+      @keyframes dots {
+        0%,20% { content: "."; }
+        40% { content: ".."; }
+        60% { content: "..."; }
+        80%,100% { content: ""; }
+      }
+      .screen-reader-only {
+        position: absolute;
+        width: 1px; height: 1px;
+        padding: 0; margin: -1px;
+        overflow: hidden;
+        clip: rect(0,0,0,0);
+        border: 0;
+      }
 
-                <div class="settings-group">
-                    <label>出力ファイル名</label>
-                    <input type="text" id="baseName" placeholder="例: camp-original" />
-                    <label class="inline-option">
-                        <input type="checkbox" id="keepOriginalName" />
-                        <span>元のファイル名を維持する</span>
-                    </label>
+      /* モーダル */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.4);
+        z-index: 100;
+        justify-content: center;
+        align-items: center;
+      }
+      .modal-overlay.open { display: flex; }
+      .modal {
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        width: 90%;
+        max-width: 420px;
+        max-height: 85vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      }
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      .modal-header h2 { margin: 0; font-size: 1.1rem; }
+      .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.4rem;
+        cursor: pointer;
+        color: #888;
+        line-height: 1;
+      }
+      .modal-footer {
+        display: flex;
+        gap: 10px;
+        margin-top: 25px;
+      }
+      .btn-save {
+        flex: 1;
+        padding: 12px;
+        background: #1a73e8;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .btn-reset {
+        padding: 12px 16px;
+        background: none;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        color: #666;
+      }
+      .save-msg {
+        text-align: center;
+        font-size: 0.85rem;
+        color: #34a853;
+        margin-top: 10px;
+        height: 1.2em;
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
 
-                    <label>リサイズ（横幅px）</label>
-                    <input type="number" id="targetWidth" value="800" />
-                    <label class="inline-option">
-                        <input type="checkbox" id="noResize" />
-                        <span>元のサイズを維持する</span>
-                    </label>
+    <main>
+      <div class="card">
+        <h1 class="screen-reader-only">画像変換くんPRO</h1>
 
-                    <label>書き出し形式</label>
-                    <select id="format">
-                        <option value="image/webp">WebP</option>
-                        <option value="image/jpeg">JPEG</option>
-                        <option value="image/png">PNG</option>
-                    </select>
+        <div class="settings-group">
+          <label>出力ファイル名</label>
+          <input type="text" id="baseName" placeholder="例: camp-original" />
+          <label class="inline-option">
+            <input type="checkbox" id="keepOriginalName" />
+            <span>元のファイル名を維持する</span>
+          </label>
 
-					<div id="ios-notice" style="display: none; font-size: 0.75rem; color: #e67e22; margin-top: 5px; line-height: 1.2;">
-						※iOS/SafariではWebPの圧縮が不安定なため、自動的にJPEGで処理されます。
-					</div>
+          <label>リサイズ（横幅px）</label>
+          <input type="number" id="targetWidth" value="800" />
+          <label class="inline-option">
+            <input type="checkbox" id="noResize" />
+            <span>元のサイズを維持する</span>
+          </label>
 
-                    <label>品質</label>
-                    <div class="range-container">
-                        <input type="range" id="quality" min="0.1" max="1.0" step="0.05" value="0.85" />
-                        <div class="range-label-area">
-                            <span>低容量</span>
-                            <span>現在の設定: <span id="qualityValue">0.85</span></span>
-                            <span>高画質</span>
-                        </div>
-                    </div>
+          <label>書き出し形式</label>
+          <select id="format">
+            <option value="image/webp">WebP</option>
+            <option value="image/avif">AVIF</option>
+            <option value="image/jpeg">JPEG</option>
+            <option value="image/png">PNG</option>
+          </select>
 
-                    <label class="inline-option" style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px;">
-                        <input type="checkbox" id="zipOption" checked />
-                        <span>複数枚をZipにまとめる</span>
-                    </label>
-                </div>
+          <div id="ios-notice" style="display:none; font-size:0.75rem; color:#e67e22; margin-top:5px; line-height:1.2;">
+            ※iOS/SafariではWebP・AVIFはWasm経由で処理されるため、やや時間がかかる場合があります。
+          </div>
 
-                <div class="file-section">
-                    <label style="margin-top: 0;">画像を選択</label>
-                    <input type="file" id="imageInput" multiple accept="image/*,.heic,.HEIC" style="margin-top: 10px; border: none;" />
-                </div>
-
-                <button id="processBtn" disabled>ライブラリ読込中...</button>
-                <div id="status"></div>
+          <label>品質</label>
+          <div class="range-container">
+            <input type="range" id="quality" min="0.1" max="1.0" step="0.05" value="0.85" />
+            <div class="range-label-area">
+              <span>低容量</span>
+              <span>現在の設定: <span id="qualityValue">0.85</span></span>
+              <span>高画質</span>
             </div>
-        </main>
+          </div>
 
-        <footer style="margin-top: 30px; text-align: center; padding: 30px 20px; border-top: 1px solid #eaeaea; color: #666; font-size: 0.85rem;">
-            <p style="margin: 0;">Created by <a href="https://andeslife.com/" style="color: #1a73e8; text-decoration: none; font-weight: bold;">AndesLife</a></p>
-            <p style="margin: 5px 0 0 0;">© 2026 AndesLife All rights reserved.</p>
-        </footer>
+          <label class="inline-option" style="margin-top:15px; border-top:1px solid #eee; padding-top:10px;">
+            <input type="checkbox" id="zipOption" checked />
+            <span>複数枚をZipにまとめる</span>
+          </label>
+        </div>
 
-        <script>
-            import { resizeImage } from "../scripts/imageProcessor.js";
-            import JSZip from "jszip";
+        <div class="file-section">
+          <label style="margin-top:0;">画像を選択</label>
+          <input type="file" id="imageInput" multiple accept="image/*,.heic,.HEIC" style="margin-top:10px; border:none;" />
+        </div>
 
-            const btn = document.getElementById("processBtn");
-            const status = document.getElementById("status");
-            const noResizeCheck = document.getElementById("noResize");
-            const keepNameCheck = document.getElementById("keepOriginalName");
-            const baseNameInput = document.getElementById("baseName");
-            const targetWidthInput = document.getElementById("targetWidth");
-            const qualityInput = document.getElementById("quality");
+        <button id="processBtn" disabled>ライブラリ読込中...</button>
+        <div id="status"></div>
+      </div>
+    </main>
 
-            function checkPica() {
-                if (window.pica) {
-                    btn.disabled = false;
-                    btn.innerText = "一括処理を開始";
-                } else {
-                    setTimeout(checkPica, 200);
-                }
+    <footer style="margin-top:30px; text-align:center; padding:30px 20px; border-top:1px solid #eaeaea; color:#666; font-size:0.85rem;">
+      <p style="margin:0;">Created by <a href="https://andeslife.com/" style="color:#1a73e8; text-decoration:none; font-weight:bold;">AndesLife</a></p>
+      <p style="margin:5px 0 0 0;">© 2026 AndesLife All rights reserved.</p>
+    </footer>
+
+    <!-- 設定モーダル -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal">
+        <div class="modal-header">
+          <h2>⚙️ デフォルト設定</h2>
+          <button class="modal-close" id="closeSettings">✕</button>
+        </div>
+
+        <div>
+          <label>デフォルトのファイル名</label>
+          <input type="text" id="def-baseName" placeholder="例: image" />
+
+          <label>デフォルトの横幅（px）</label>
+          <input type="number" id="def-targetWidth" />
+
+          <label>デフォルトの書き出し形式</label>
+          <select id="def-format">
+            <option value="image/webp">WebP</option>
+            <option value="image/avif">AVIF</option>
+            <option value="image/jpeg">JPEG</option>
+            <option value="image/png">PNG</option>
+          </select>
+
+          <label>デフォルトの品質</label>
+          <div class="range-container">
+            <input type="range" id="def-quality" min="0.1" max="1.0" step="0.05" value="0.85" />
+            <div class="range-label-area">
+              <span>低容量</span>
+              <span>現在の設定: <span id="def-qualityValue">0.85</span></span>
+              <span>高画質</span>
+            </div>
+          </div>
+
+          <label class="inline-option" style="margin-top: 15px;">
+            <input type="checkbox" id="def-keepOriginalName" />
+            <span>元のファイル名を維持する（初期値）</span>
+          </label>
+
+          <label class="inline-option" style="margin-top: 8px;">
+            <input type="checkbox" id="def-noResize" />
+            <span>元のサイズを維持する（初期値）</span>
+          </label>
+
+          <label class="inline-option" style="margin-top: 8px;">
+            <input type="checkbox" id="def-zipOption" />
+            <span>複数枚をZipにまとめる（初期値）</span>
+          </label>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn-reset" id="resetSettings">リセット</button>
+          <button class="btn-save" id="saveSettings">保存する</button>
+        </div>
+        <div class="save-msg" id="saveMsg"></div>
+      </div>
+    </div>
+
+    <script>
+      import { resizeImage } from "../scripts/imageProcessor.js";
+      import JSZip from "jszip";
+
+      // ---- デフォルト値 ----
+      const FACTORY_DEFAULTS = {
+        baseName: "image",
+        targetWidth: 800,
+        format: "image/webp",
+        quality: 0.85,
+        keepOriginalName: false,
+        noResize: false,
+        zipOption: true,
+      };
+      const STORAGE_KEY = "imgConverterDefaults";
+
+      function loadDefaults() {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          return saved ? { ...FACTORY_DEFAULTS, ...JSON.parse(saved) } : { ...FACTORY_DEFAULTS };
+        } catch { return { ...FACTORY_DEFAULTS }; }
+      }
+
+      function saveDefaults(data) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      }
+
+      // ---- メイン画面への反映 ----
+      function applyToMain(defaults) {
+        document.getElementById("baseName").value = defaults.baseName;
+        document.getElementById("targetWidth").value = defaults.targetWidth;
+        document.getElementById("format").value = defaults.format;
+        document.getElementById("quality").value = defaults.quality;
+        document.getElementById("qualityValue").innerText = defaults.quality;
+        document.getElementById("keepOriginalName").checked = defaults.keepOriginalName;
+        document.getElementById("noResize").checked = defaults.noResize;
+        document.getElementById("zipOption").checked = defaults.zipOption;
+
+        // 連動するdisabled状態も更新
+        const baseNameInput = document.getElementById("baseName");
+        baseNameInput.disabled = defaults.keepOriginalName;
+        baseNameInput.style.opacity = defaults.keepOriginalName ? "0.5" : "1";
+
+        const targetWidthInput = document.getElementById("targetWidth");
+        targetWidthInput.disabled = defaults.noResize;
+        targetWidthInput.style.opacity = defaults.noResize ? "0.5" : "1";
+      }
+
+      // ---- モーダルへの反映 ----
+      function applyToModal(defaults) {
+        document.getElementById("def-baseName").value = defaults.baseName;
+        document.getElementById("def-targetWidth").value = defaults.targetWidth;
+        document.getElementById("def-format").value = defaults.format;
+        document.getElementById("def-quality").value = defaults.quality;
+        document.getElementById("def-qualityValue").innerText = defaults.quality;
+        document.getElementById("def-keepOriginalName").checked = defaults.keepOriginalName;
+        document.getElementById("def-noResize").checked = defaults.noResize;
+        document.getElementById("def-zipOption").checked = defaults.zipOption;
+      }
+
+      // ---- 初期化 ----
+      const defaults = loadDefaults();
+      applyToMain(defaults);
+      document.getElementById("openSettings").style.display = "flex";
+
+      // iOS通知
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+      if (isIOS || isSafari) {
+        document.getElementById("ios-notice").style.display = "block";
+      }
+
+      // ---- pica読み込み待ち ----
+      const btn = document.getElementById("processBtn");
+      function checkPica() {
+        if (window.pica) {
+          btn.disabled = false;
+          btn.innerText = "一括処理を開始";
+        } else {
+          setTimeout(checkPica, 200);
+        }
+      }
+      checkPica();
+
+      // ---- メイン画面のインタラクション ----
+      document.getElementById("keepOriginalName").addEventListener("change", (e) => {
+        const inp = document.getElementById("baseName");
+        inp.disabled = e.target.checked;
+        inp.style.opacity = e.target.checked ? "0.5" : "1";
+      });
+
+      document.getElementById("noResize").addEventListener("change", (e) => {
+        const inp = document.getElementById("targetWidth");
+        inp.disabled = e.target.checked;
+        inp.style.opacity = e.target.checked ? "0.5" : "1";
+      });
+
+      document.getElementById("quality").addEventListener("input", (e) => {
+        document.getElementById("qualityValue").innerText = e.target.value;
+      });
+
+      // ---- モーダル開閉 ----
+      document.getElementById("openSettings").addEventListener("click", () => {
+        applyToModal(loadDefaults());
+        document.getElementById("modalOverlay").classList.add("open");
+      });
+
+      function closeModal() {
+        document.getElementById("modalOverlay").classList.remove("open");
+      }
+
+      document.getElementById("closeSettings").addEventListener("click", closeModal);
+      document.getElementById("modalOverlay").addEventListener("click", (e) => {
+        if (e.target === document.getElementById("modalOverlay")) closeModal();
+      });
+
+      // モーダル内の品質スライダー連動
+      document.getElementById("def-quality").addEventListener("input", (e) => {
+        document.getElementById("def-qualityValue").innerText = e.target.value;
+      });
+
+      // ---- 保存 ----
+      document.getElementById("saveSettings").addEventListener("click", () => {
+        const newDefaults = {
+          baseName: document.getElementById("def-baseName").value || "image",
+          targetWidth: parseInt(document.getElementById("def-targetWidth").value) || 800,
+          format: document.getElementById("def-format").value,
+          quality: parseFloat(document.getElementById("def-quality").value),
+          keepOriginalName: document.getElementById("def-keepOriginalName").checked,
+          noResize: document.getElementById("def-noResize").checked,
+          zipOption: document.getElementById("def-zipOption").checked,
+        };
+        saveDefaults(newDefaults);
+        applyToMain(newDefaults);
+
+        // 保存メッセージを一時表示
+        const msg = document.getElementById("saveMsg");
+        msg.innerText = "✅ 保存しました";
+        setTimeout(() => { msg.innerText = ""; }, 2000);
+      });
+
+      // ---- リセット ----
+      document.getElementById("resetSettings").addEventListener("click", () => {
+        if (!confirm("デフォルト設定をリセットしますか？")) return;
+        localStorage.removeItem(STORAGE_KEY);
+        applyToModal({ ...FACTORY_DEFAULTS });
+      });
+
+      // ---- 変換処理 ----
+      const status = document.getElementById("status");
+
+      btn.addEventListener("click", async () => {
+        const fileInput = document.getElementById("imageInput");
+        const files = fileInput.files;
+        if (files.length === 0) return alert("画像を選択してください");
+
+        const config = {
+          baseName: document.getElementById("baseName").value || "image",
+          keepOriginalName: document.getElementById("keepOriginalName").checked,
+          targetWidth: document.getElementById("noResize").checked
+            ? null
+            : parseInt(document.getElementById("targetWidth").value) || 800,
+          format: document.getElementById("format").value,
+          quality: parseFloat(document.getElementById("quality").value),
+          useZip: document.getElementById("zipOption").checked,
+        };
+
+        btn.disabled = true;
+        const zip = config.useZip && files.length > 1 ? new JSZip() : null;
+
+        for (let i = 0; i < files.length; i++) {
+          try {
+            status.innerHTML = `<span class="loading-dots">${i + 1} / ${files.length} 枚目を処理中</span>`;
+
+            const blob = await resizeImage(files[i], config);
+
+            const mimeToExt = {
+              "image/webp": "webp",
+              "image/avif": "avif",
+              "image/jpeg": "jpg",
+              "image/png": "png",
+            };
+            const ext = mimeToExt[blob.type] || "webp";
+
+            let fileName;
+            if (config.keepOriginalName) {
+              const originalName = files[i].name.substring(0, files[i].name.lastIndexOf("."));
+              fileName = `${originalName}.${ext}`;
+            } else {
+              fileName = `${config.baseName.replace(/[\\/:*?"<>|]/g, "")}_${String(i + 1).padStart(2, "0")}.${ext}`;
             }
-            checkPica();
 
-			// iPhone/Safari判定をして注意書きを表示
-			const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-			const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-			if (isIOS || isSafari) {
-				document.getElementById("ios-notice").style.display = "block";
-			}
-
-            keepNameCheck.addEventListener("change", (e) => {
-                baseNameInput.disabled = e.target.checked;
-                baseNameInput.style.opacity = e.target.checked ? "0.5" : "1";
-            });
-
-            noResizeCheck.addEventListener("change", (e) => {
-                targetWidthInput.disabled = e.target.checked;
-                targetWidthInput.style.opacity = e.target.checked ? "0.5" : "1";
-            });
-
-            qualityInput.addEventListener("input", (e) => {
-                document.getElementById("qualityValue").innerText = e.target.value;
-            });
-
-            btn.addEventListener("click", async () => {
-                const fileInput = document.getElementById("imageInput");
-                const files = fileInput.files;
-                if (files.length === 0) return alert("画像を選択してください");
-
-                const config = {
-                    baseName: baseNameInput.value || "image",
-                    keepOriginalName: keepNameCheck.checked,
-                    targetWidth: noResizeCheck.checked ? null : parseInt(targetWidthInput.value) || 800,
-                    format: document.getElementById("format").value,
-                    quality: parseFloat(qualityInput.value),
-                    useZip: document.getElementById("zipOption").checked,
-                };
-
-                btn.disabled = true;
-                const zip = config.useZip && files.length > 1 ? new JSZip() : null;
-
-                for (let i = 0; i < files.length; i++) {
-                    try {
-                        status.innerHTML = `<span class="loading-dots">${i + 1} / ${files.length} 枚目を処理中</span>`;
-                        
-                        const blob = await resizeImage(files[i], config);
-                        
-                        const mimeToExt = {
-                            "image/webp": "webp",
-                            "image/jpeg": "jpg",
-                            "image/png": "png",
-                        };
-                        const ext = mimeToExt[blob.type] || "webp";
-
-                        let fileName;
-                        if (config.keepOriginalName) {
-                            const originalName = files[i].name.substring(0, files[i].name.lastIndexOf("."));
-                            fileName = `${originalName}.${ext}`;
-                        } else {
-                            fileName = `${config.baseName.replace(/[\\/:*?"<>|]/g, "")}_${String(i + 1).padStart(2, "0")}.${ext}`;
-                        }
-
-                        if (zip) {
-                            zip.file(fileName, blob);
-                        } else {
-                            triggerDownload(blob, fileName);
-                        }
-                    } catch (e) {
-                        console.error(e);
-                        status.innerText = `⚠️ エラー: ${files[i].name}`;
-                    }
-                }
-
-                if (zip) {
-                    status.innerText = "📦 Zipファイルを作成中...";
-                    const content = await zip.generateAsync({ type: "blob" });
-                    triggerDownload(content, `${config.baseName || "images"}.zip`);
-                }
-
-                status.innerText = "✅ 完了しました！";
-                btn.disabled = false;
-            });
-
-            function triggerDownload(blob, fileName) {
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.style.display = "none";
-                a.href = url;
-                a.download = fileName;
-                document.body.appendChild(a);
-                a.click();
-                
-                setTimeout(() => {
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                }, 2000);
+            if (zip) {
+              zip.file(fileName, blob);
+            } else {
+              triggerDownload(blob, fileName);
             }
-        </script>
-    </body>
+          } catch (e) {
+            console.error(e);
+            status.innerText = `⚠️ エラー: ${files[i].name}`;
+          }
+        }
+
+        if (zip) {
+          status.innerText = "📦 Zipファイルを作成中...";
+          const content = await zip.generateAsync({ type: "blob" });
+          triggerDownload(content, `${config.baseName || "images"}.zip`);
+        }
+
+        status.innerText = "✅ 完了しました！";
+        btn.disabled = false;
+      });
+
+      function triggerDownload(blob, fileName) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }, 2000);
+      }
+    </script>
+  </body>
 </html>

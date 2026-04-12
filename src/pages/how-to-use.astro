@@ -117,10 +117,44 @@ import Header from "../components/Header.astro";
             <section>
                 <h2>ツールの仕組み</h2>
                 <p>
-                    本ツールは、ブラウザ上で動作する画像変換ツールです。WebAssembly技術（libheif）を使用することで、ブラウザが本来苦手とするHEIC形式のデコードを可能にしています。
+                    本ツールは、ブラウザ上で動作する画像変換ツールです。サーバーを介さず、すべての処理をデバイス内で完結させるために、いくつかのWebAssemblyライブラリを組み合わせています。
+                </p>
+
+                <table class="format-table">
+                    <thead>
+                        <tr>
+                            <th>ライブラリ</th>
+                            <th>役割</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>libheif-js</strong></td>
+                            <td>HEICファイルのデコード。iPhoneで撮影した写真をブラウザ上で読み込むために使用。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>pica</strong></td>
+                            <td>高品質なリサイズ処理。単純な縮小ではなくLanczosフィルタを用いることで、縮小後もシャープな仕上がりになります。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>@jsquash/webp</strong></td>
+                            <td>GoogleのlibwebpをWasmにコンパイルしたエンコーダー。Safari / iOSでは<code>canvas.toBlob()</code>によるWebP書き出しが非対応なため、このライブラリで処理しています。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>@jsquash/avif</strong></td>
+                            <td>libavifベースのAVIFエンコーダー。AVIFはブラウザネイティブの書き出し対応がまだ限定的なため、全環境でWasm経由で処理しています。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>JSZip</strong></td>
+                            <td>複数画像を一括変換した際のZipファイル生成。</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="note">
+                    ※WebP・AVIFはWasmエンコーダーを使用するため、JPEG・PNGと比べて変換に数秒多くかかる場合があります。特にAVIFは計算コストが高い形式です。
                 </p>
             </section>
-
             <section>
                 <h2>安全性について</h2>
                 <div class="safety-badge">
@@ -169,10 +203,15 @@ import Header from "../components/Header.astro";
                             <td>.webp</td>
                             <td>Googleが推奨する次世代画像形式です。</td>
                         </tr>
+                        <tr>
+                            <td><strong>AVIF</strong></td>
+                            <td>.avif</td>
+                            <td>AV1コーデックベースの次世代形式。同じ画質ならWebPよりさらにファイルサイズを小さくできますが、エンコードに時間がかかります。</td>
+                        </tr>
                     </tbody>
                 </table>
                 <p class="note">
-                    ※出力（書き出し）は WebP / JPEG / PNG から選択できます。
+                    ※出力（書き出し）は WebP / AVIF / JPEG / PNG から選択できます。
                 </p>
             </section>
 
