@@ -32,11 +32,19 @@ import Header from "../components/Header.astro";
             }
             .content {
                 max-width: 800px;
-                margin: 40px auto;
+                margin: 24px auto;
                 background: #fff;
-                padding: 40px;
+                padding: 24px 20px; /* 変更前: padding: 40px */
                 border-radius: 16px;
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            }
+
+            /* PC以上では余白を戻す */
+            @media (min-width: 480px) {
+                .content {
+                    margin: 40px auto;
+                    padding: 40px;
+                }
             }
             h2 {
                 color: #1a73e8;

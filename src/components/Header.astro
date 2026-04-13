@@ -9,8 +9,8 @@
             <span class="site-title">画像変換くんPRO</span>
         </a>
         <nav>
-        <a href="/how-to-use" class="nav-link">利用方法</a>
-        <a href="/release-notes" class="nav-link">更新履歴</a>
+            <a href="/how-to-use" class="nav-link">利用方法</a>
+            <a href="/release-notes" class="nav-link">更新履歴</a>
         </nav>
     </div>
 </header>
@@ -19,7 +19,7 @@
     .site-header {
         background: #fff;
         border-bottom: 1px solid #eaeaea;
-        padding: 0 20px;
+        padding: 0 16px;
         height: 60px;
         display: flex;
         align-items: center;
@@ -32,55 +32,59 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        gap: 8px;
     }
     .header-logo-group {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 8px;
         text-decoration: none;
+        min-width: 0; /* テキストが縮めるようにする */
     }
     .header-icon {
-        width: 32px;
-        height: 32px;
+        width: 28px;
+        height: 28px;
         border-radius: 6px;
         object-fit: cover;
+        flex-shrink: 0;
     }
     .site-title {
         font-weight: bold;
-        font-size: 1.1rem;
+        font-size: 1rem;
         color: #1a73e8;
         letter-spacing: -0.02em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     nav {
         display: flex;
         align-items: center;
-        gap: 8px;
-    }
-    .settings-btn {
-        background: none;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 6px 12px;
-        cursor: pointer;
-        font-size: 0.85rem;
-        color: #555;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-    .settings-btn:hover {
-        background: #f0f2f5;
+        gap: 2px;
+        flex-shrink: 0;
     }
     .nav-link {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         color: #666;
         text-decoration: none;
-        padding: 8px 16px;
+        padding: 6px 10px;
         border-radius: 8px;
         transition: all 0.2s;
+        white-space: nowrap;
     }
     .nav-link:hover {
         background: #f0f2f5;
         color: #1a73e8;
+    }
+
+    /* スマホ：タイトル文字を少し小さく */
+    @media (max-width: 380px) {
+        .site-title {
+            font-size: 0.85rem;
+        }
+        .nav-link {
+            font-size: 0.78rem;
+            padding: 6px 7px;
+        }
     }
 </style>
