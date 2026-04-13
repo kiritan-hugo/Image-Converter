@@ -207,6 +207,12 @@ import Header from "../components/Header.astro";
       <div class="card">
         <h1 class="screen-reader-only">画像変換くんPRO</h1>
 
+          <div style="display:flex; justify-content:flex-end; margin-bottom:16px;">
+            <button class="settings-btn" id="openSettings">
+              ⚙️ デフォルト設定
+            </button>
+          </div>
+
         <div class="settings-group">
           <label>出力ファイル名</label>
           <input type="text" id="baseName" placeholder="例: camp-original" />
@@ -261,8 +267,13 @@ import Header from "../components/Header.astro";
     </main>
 
     <footer style="margin-top:30px; text-align:center; padding:30px 20px; border-top:1px solid #eaeaea; color:#666; font-size:0.85rem;">
-      <p style="margin:0;">Created by <a href="https://andeslife.com/" style="color:#1a73e8; text-decoration:none; font-weight:bold;">AndesLife</a></p>
-      <p style="margin:5px 0 0 0;">© 2026 AndesLife All rights reserved.</p>
+      <p style="margin:0;">Created by <a href="https://andes-life.com/" style="color:#1a73e8; text-decoration:none; font-weight:bold;">AndesLife</a></p>
+      <p style="margin: 5px 0 0 0;">
+  <a href="/release-notes" style="color: #1a73e8; text-decoration: none;">リリースノート</a>
+  　|　
+  <a href="/how-to-use" style="color: #1a73e8; text-decoration: none;">利用方法</a>
+</p>
+<p style="margin: 5px 0 0 0;">© 2026 AndesLife All rights reserved.</p>
     </footer>
 
     <!-- 設定モーダル -->
@@ -382,7 +393,6 @@ import Header from "../components/Header.astro";
       // ---- 初期化 ----
       const defaults = loadDefaults();
       applyToMain(defaults);
-      document.getElementById("openSettings").style.display = "flex";
 
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
       const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);

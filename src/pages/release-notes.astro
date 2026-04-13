@@ -1,0 +1,176 @@
+---
+import Header from "../components/Header.astro";
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>リリースノート - 画像変換くんPRO</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        line-height: 1.8;
+        color: #333;
+        background: #f0f2f5;
+        margin: 0;
+      }
+      .content {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 0 20px 60px;
+      }
+      h1 {
+        font-size: 1.6rem;
+        color: #1a73e8;
+        margin-bottom: 8px;
+      }
+      .subtitle {
+        color: #888;
+        font-size: 0.9rem;
+        margin-bottom: 40px;
+      }
+      .release {
+        background: #fff;
+        border-radius: 16px;
+        padding: 28px 32px;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      }
+      .release-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+      .version-badge {
+        background: #1a73e8;
+        color: #fff;
+        font-size: 0.8rem;
+        font-weight: bold;
+        padding: 4px 12px;
+        border-radius: 20px;
+        white-space: nowrap;
+      }
+      .version-badge.minor {
+        background: #34a853;
+      }
+      .version-badge.patch {
+        background: #888;
+      }
+      .release-title {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #222;
+      }
+      .release-date {
+        font-size: 0.82rem;
+        color: #aaa;
+        margin-left: auto;
+        white-space: nowrap;
+      }
+      .tag-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 14px;
+      }
+      .tag {
+        font-size: 0.75rem;
+        padding: 2px 10px;
+        border-radius: 12px;
+        font-weight: 500;
+      }
+      .tag.new      { background: #e8f5e9; color: #2e7d32; }
+      .tag.improve  { background: #e3f2fd; color: #1565c0; }
+      .tag.fix      { background: #fff8e1; color: #f57f17; }
+      .items {
+        margin: 0;
+        padding: 0 0 0 20px;
+        font-size: 0.92rem;
+        color: #444;
+      }
+      .items li {
+        margin-bottom: 6px;
+      }
+      .back-link {
+        display: inline-block;
+        margin-top: 16px;
+        color: #1a73e8;
+        text-decoration: none;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main class="content">
+      <h1>リリースノート</h1>
+      <p class="subtitle">画像変換くんPROのアップデート履歴です。</p>
+
+      <!-- v1.2 -->
+      <div class="release">
+        <div class="release-header">
+          <span class="version-badge">v2.0</span>
+          <span class="release-title">AVIF対応・デフォルト設定の保存機能を追加</span>
+          <span class="release-date">2026年4月13日</span>
+        </div>
+        <div class="tag-list">
+          <span class="tag new">新機能</span>
+          <span class="tag improve">改善</span>
+        </div>
+        <ul class="items">
+          <li>書き出し形式に <strong>AVIF</strong> を追加。WebPよりさらにファイルサイズを小さくできます。</li>
+          <li>「⚙️ デフォルト設定」からよく使う設定を保存できるようになりました。</li>
+          <li>デフォルト設定はブラウザに保存されるため、次回アクセス時も反映されます。</li>
+          <li>品質スライダーの精度を改善。WebPとAVIFで同じ品質感になるよう調整しました。</li>
+        </ul>
+      </div>
+
+      <!-- v1.1 -->
+      <div class="release">
+        <div class="release-header">
+          <span class="version-badge minor">v1.1</span>
+          <span class="release-title">iPhone・Safari対応を強化</span>
+          <span class="release-date">2026年4月11日</span>
+        </div>
+        <div class="tag-list">
+          <span class="tag fix">修正</span>
+          <span class="tag improve">改善</span>
+        </div>
+        <ul class="items">
+          <li>iPhoneのSafariでWebP変換ができない問題を修正。WebAssembly（Wasm）ベースのエンコーダーに切り替えました。</li>
+          <li>テキスト入力時にiOSで画面がズームインする問題を修正。</li>
+          <li>変換処理の安定性を改善しました。</li>
+        </ul>
+      </div>
+
+      <!-- v1.0 -->
+      <div class="release">
+        <div class="release-header">
+          <span class="version-badge">v1.0</span>
+          <span class="release-title">初回リリース</span>
+          <span class="release-date">2026年4月10日</span>
+        </div>
+        <div class="tag-list">
+          <span class="tag new">新機能</span>
+        </div>
+        <ul class="items">
+          <li>ブラウザ上で動作する画像変換ツール「画像変換くんPRO」を公開しました。</li>
+          <li>HEIC・JPEG・PNG・WebPの読み込みに対応。</li>
+          <li>横幅指定によるリサイズ、品質調整に対応。</li>
+          <li>複数ファイルの一括処理・ZIPダウンロードに対応。</li>
+          <li>すべての処理がデバイス内で完結し、画像データはサーバーに送信されません。</li>
+        </ul>
+      </div>
+
+      <a href="/" class="back-link">← ツールへ戻る</a>
+    </main>
+  </body>
+</html>
